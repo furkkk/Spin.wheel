@@ -1,14 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Login & Register</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      height: 100vh;
+      padding: 20px;
+      min-height: 100vh;
       background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       display: flex;
       justify-content: center;
@@ -17,32 +17,33 @@
     }
 
     .login-box {
-      width: 320px;
+      width: 90%;
+      max-width: 360px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
       backdrop-filter: blur(10px);
       position: relative;
-      padding: 40px 30px;
+      padding: 30px 20px;
     }
 
     .screw-img {
-      width: 30px;
-      height: 30px;
+      width: 20px;
+      height: 20px;
       position: absolute;
       filter: drop-shadow(0 0 6px #00ffffaa);
     }
 
-    .top-left { top: -15px; left: -15px; }
-    .top-right { top: -15px; right: -15px; }
-    .bottom-left { bottom: -15px; left: -15px; }
-    .bottom-right { bottom: -15px; right: -15px; }
+    .top-left { top: 5px; left: 5px; }
+    .top-right { top: 5px; right: 5px; }
+    .bottom-left { bottom: 5px; left: 5px; }
+    .bottom-right { bottom: 5px; right: 5px; }
 
     .profile-icon {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      margin: 0 auto 25px;
+      margin: 0 auto 20px;
       box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
       overflow: hidden;
     }
@@ -54,9 +55,9 @@
     }
 
     input[type="text"], input[type="email"], input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
+      width: calc(100% - 24px);
+      padding: 10px;
+      margin-bottom: 15px;
       border: none;
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.2);
@@ -79,7 +80,7 @@
     .actions a {
       color: #0ff;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12px;
       transition: color 0.3s;
     }
 
@@ -88,7 +89,7 @@
     }
 
     .actions button {
-      padding: 10px 18px;
+      padding: 8px 15px;
       background: linear-gradient(135deg, #0ff, #00ccff);
       border: none;
       color: #000;
@@ -97,6 +98,7 @@
       cursor: pointer;
       box-shadow: 0 0 10px #0ff, 0 0 20px #00f0ff;
       transition: transform 0.2s ease;
+      font-size: 12px;
     }
 
     .actions button:hover {
@@ -109,18 +111,23 @@
 
     #popup {
       position: fixed;
-      top: 20px;
+      top: 60px; /* Moved the top position lower */
       left: 50%;
       transform: translateX(-50%);
       background: rgba(255, 0, 0, 0.9);
       color: white;
-      padding: 10px 20px;
+      padding: 10px 15px;
       border-radius: 8px;
       font-weight: bold;
       box-shadow: 0 0 10px red;
       display: none;
-      z-index: 999;
+      z-index: 1000;
       animation: fadeIn 0.3s ease;
+      font-size: 12px;
+    }
+
+    .popup-green {
+      background: rgba(0, 200, 0, 0.9);
     }
 
     @keyframes fadeIn {
@@ -206,8 +213,8 @@
 
       if (storedData && enteredUser === storedData.username && enteredPass === storedData.password) {
         showPopup("Login successful!", "green");
-        // Redirect to dashboard, passing the bitmoji URL
-        window.location.href = `dashboard.html?bitmoji=${encodeURIComponent(currentBitmojiUrl)}`;
+        // No redirection in this version as per your request
+        // window.location.href = `dashboard.html?bitmoji=${encodeURIComponent(currentBitmojiUrl)}`;
       } else {
         showPopup("Invalid username or password");
       }
@@ -216,7 +223,11 @@
     function showPopup(message, color = "red") {
       const popup = document.getElementById("popup");
       popup.textContent = message;
-      popup.style.background = color === "green" ? "rgba(0, 200, 0, 0.9)" : "rgba(255, 0, 0, 0.9)";
+      popup.className = ""; // Reset previous classes
+      popup.classList.add("popup"); // Add the base popup class
+      if (color === "green") {
+        popup.classList.add("popup-green");
+      }
       popup.style.display = "block";
       setTimeout(() => {
         popup.style.display = "none";
@@ -225,5 +236,3 @@
   </script>
 </body>
 </html>
-
-
