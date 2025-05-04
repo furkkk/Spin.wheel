@@ -210,11 +210,13 @@
       const enteredUser = document.getElementById("login-username").value.trim();
       const enteredPass = document.getElementById("login-password").value.trim();
       const storedData = JSON.parse(localStorage.getItem("loginUser"));
+      const bitmojiElement = document.getElementById("bitmoji");
+      const currentBitmojiUrl = bitmojiElement.src;
 
       if (storedData && enteredUser === storedData.username && enteredPass === storedData.password) {
         showPopup("Login successful!", "green");
-        // No redirection in this version as per your request
-        // window.location.href = `dashboard.html?bitmoji=${encodeURIComponent(currentBitmojiUrl)}`;
+        // Redirect to the dashboard.html page, passing the Bitmoji URL
+        window.location.href = `dashboard.html?bitmoji=${encodeURIComponent(currentBitmojiUrl)}`;
       } else {
         showPopup("Invalid username or password");
       }
