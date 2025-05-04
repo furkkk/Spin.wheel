@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Login & Register</title>
   <style>
     body {
@@ -105,13 +105,11 @@
       transform: scale(1.05);
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     #popup {
       position: fixed;
-      top: 60px; /* Moved the top position lower */
+      top: 60px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(255, 0, 0, 0.9);
@@ -130,9 +128,87 @@
       background: rgba(0, 200, 0, 0.9);
     }
 
+    #secret-link {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      color: #aaa;
+      font-size: 10px;
+      text-decoration: none;
+    }
+
+    #secret-link:hover { color: #fff; }
+
+    #secret-page, #admin-area {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1001;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      text-align: center;
+    }
+
+    #secret-page input, #secret-page button,
+    #admin-area button {
+      margin: 10px 0;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    #secret-page button, #admin-area button {
+      background-color: #00ccff;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #secret-page .close-button,
+    #admin-area .close-button {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #admin-area .close-button { font-size: 20px; }
+
+    #secret-page .close-button:hover,
+    #admin-area .close-button:hover { color: #fff; }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    #visit-counter {
+      position: fixed;
+      bottom: 8px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #ccc;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 8px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px #00f0ff88;
+      backdrop-filter: blur(4px);
+    }
+
+    #visit-counter img {
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      filter: drop-shadow(0 0 4px #0ff);
     }
   </style>
 </head>
@@ -142,35 +218,58 @@
     <img class="screw-img top-right" src="screw2.png" alt="screw">
     <img class="screw-img bottom-left" src="screw3.png" alt="screw">
     <img class="screw-img bottom-right" src="screw4.png" alt="screw">
-
-    <div class="profile-icon">
+    <div class="profile-icon" onclick="playSound()">
       <img id="bitmoji" src="" alt="Bitmoji">
     </div>
-
     <div id="login-form">
       <input type="text" placeholder="Username" id="login-username">
       <input type="password" placeholder="Password" id="login-password">
       <div class="actions">
         <div>
-          <a href="#">Forget?</a><br>
-          <a href="#" onclick="toggleForms()">Create Account</a>
+          <a href="#" onclick="playSound()">Forget?</a><br>
+          <a href="#" onclick="toggleForms(); playSound()">Create Account</a>
         </div>
-        <button onclick="loginAccount()">Login</button>
+        <button onclick="loginAccount(); playSound()">Login</button>
       </div>
     </div>
-
     <div id="register-form" class="hidden">
       <input type="text" placeholder="Username" id="register-username">
       <input type="email" placeholder="Email" id="register-email">
       <input type="password" placeholder="Password" id="register-password">
       <div class="actions">
-        <a href="#" onclick="toggleForms()">Back</a>
-        <button onclick="createAccount()">Create</button>
+        <a href="#" onclick="toggleForms(); playSound()">Back</a>
+        <button onclick="createAccount(); playSound()">Create</button>
       </div>
     </div>
   </div>
 
+  <a id="secret-link" href="#" onclick="showSecretPage(); playSound()">Secret</a>
+
+  <div id="secret-page">
+    <span class="close-button" onclick="hideSecretPage(); playSound()">&times;</span>
+    <h3>Admin Access</h3>
+    <input type="text" id="secret-username" placeholder="Username">
+    <input type="password" id="secret-password" placeholder="Password">
+    <button onclick="accessSecretPage(); playSound()">Access</button>
+    <div id="secret-message" style="color: red; margin-top: 10px; font-size: 12px;"></div>
+  </div>
+
+  <div id="admin-area">
+    <span class="close-button" onclick="hideAdminArea(); playSound()">×</span>
+    <h2>Admin Control Panel</h2>
+    <p>Welcome, Furkaan!</p>
+    <button onclick="alert('Do some admin action here!'); playSound()">Perform Admin Action</button>
+  </div>
+
   <div id="popup"></div>
+
+  <!-- Visit Counter -->
+  <div id="visit-counter">
+    <img src="eye.png" alt="Eye Icon">
+    <span id="visit-count">0</span>
+  </div>
+
+  <audio id="clickSound" src="click.mp3"></audio>
 
   <script>
     const bitmojiList = [
@@ -184,6 +283,16 @@
     const currentBitmojiUrl = bitmojiList[Math.floor(Math.random() * bitmojiList.length)];
     bitmojiElement.src = currentBitmojiUrl;
 
+    const clickSound = document.getElementById("clickSound");
+    const secretPage = document.getElementById("secret-page");
+    const secretMessage = document.getElementById("secret-message");
+    const adminArea = document.getElementById("admin-area");
+
+    function playSound() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+
     function toggleForms() {
       document.getElementById("login-form").classList.toggle("hidden");
       document.getElementById("register-form").classList.toggle("hidden");
@@ -193,12 +302,11 @@
       const username = document.getElementById("register-username").value.trim();
       const email = document.getElementById("register-email").value.trim();
       const password = document.getElementById("register-password").value.trim();
-
       if (username && password && email) {
         const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || {};
         registeredUsers[username] = { email: email, password: password };
         localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
-        localStorage.setItem("loginUser", JSON.stringify({ username, password })); // Auto login after registration (optional)
+        localStorage.setItem("loginUser", JSON.stringify({ username, password }));
         showPopup("Account created successfully!", "green");
         toggleForms();
       } else {
@@ -210,12 +318,9 @@
       const enteredUser = document.getElementById("login-username").value.trim();
       const enteredPass = document.getElementById("login-password").value.trim();
       const storedData = JSON.parse(localStorage.getItem("loginUser"));
-      const bitmojiElement = document.getElementById("bitmoji");
       const currentBitmojiUrl = bitmojiElement.src;
-
       if (storedData && enteredUser === storedData.username && enteredPass === storedData.password) {
         showPopup("Login successful!", "green");
-        // Redirect to the dashboard.html page, passing the Bitmoji URL
         window.location.href = `dashboard.html?bitmoji=${encodeURIComponent(currentBitmojiUrl)}`;
       } else {
         showPopup("Invalid username or password");
@@ -225,8 +330,8 @@
     function showPopup(message, color = "red") {
       const popup = document.getElementById("popup");
       popup.textContent = message;
-      popup.className = ""; // Reset previous classes
-      popup.classList.add("popup"); // Add the base popup class
+      popup.className = "";
+      popup.classList.add("popup");
       if (color === "green") {
         popup.classList.add("popup-green");
       }
@@ -235,6 +340,42 @@
         popup.style.display = "none";
       }, 2000);
     }
+
+    function showSecretPage() {
+      secretPage.style.display = "block";
+    }
+
+    function hideSecretPage() {
+      secretPage.style.display = "none";
+      secretMessage.textContent = "";
+    }
+
+    function showAdminArea() {
+      adminArea.style.display = "block";
+    }
+
+    function hideAdminArea() {
+      adminArea.style.display = "none";
+    }
+
+    function accessSecretPage() {
+      const username = document.getElementById("secret-username").value;
+      const password = document.getElementById("secret-password").value;
+      if (username === "furkaan@admin" && password === "123123@") {
+        hideSecretPage();
+        showAdminArea();
+      } else {
+        secretMessage.textContent = "Incorrect Username or Password.";
+      }
+    }
+
+    // Visit Counter Logic
+    window.addEventListener("load", function () {
+      let visitCount = localStorage.getItem("loginPageVisits");
+      visitCount = visitCount ? parseInt(visitCount) + 1 : 1;
+      localStorage.setItem("loginPageVisits", visitCount);
+      document.getElementById("visit-count").textContent = visitCount;
+    });
   </script>
 </body>
 </html>
