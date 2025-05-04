@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mobile Dashboard</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -14,30 +15,30 @@
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      padding-top: 80px;
+      padding-top: 70px;
       position: relative;
     }
 
     .dashboard-container {
+      width: 90%;
+      max-width: 400px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .greeting {
-      font-size: 3em;
-      text-shadow: 0 0 10px #ff6ec7, 0 0 20px #ff6ec7;
-      opacity: 0;
-      transform: translateY(0) scale(1);
+      font-size: 2em;
+      text-align: center;
+      margin-bottom: 20px;
       animation: moveUpShrink 1.5s ease-out forwards, pulseGlow 2s infinite alternate;
-      margin-bottom: 30px;
     }
 
     @keyframes moveUpShrink {
       to {
         opacity: 1;
-        transform: translateY(-50vh) scale(0.6);
+        transform: translateY(-35vh) scale(0.7);
       }
     }
 
@@ -52,22 +53,17 @@
 
     .top-right {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      top: 15px;
+      right: 15px;
     }
 
     .profile-circle {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 0 10px #0ff;
-      margin-bottom: 10px;
+      box-shadow: 0 0 8px #0ff;
       cursor: pointer;
-      position: relative;
     }
 
     .profile-circle img {
@@ -78,46 +74,24 @@
 
     #user-info {
       position: absolute;
-      top: 60px;
+      top: 50px;
       right: -10px;
       background: rgba(0, 0, 0, 0.85);
-      padding: 10px;
+      padding: 8px;
       border-radius: 5px;
+      font-size: 0.8em;
       display: none;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-      font-size: 0.9em;
       white-space: pre-line;
     }
 
-    .coin-box {
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #ffc107;
-      padding: 12px 16px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      font-weight: bold;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-      z-index: 4;
-      margin-top: 25px;
-      min-width: 150px;
-      justify-content: center;
-      font-size: 1.1em;
-    }
-
-    .coin-logo {
-      font-size: 1.3em;
-      margin-right: 10px;
-    }
-
     .wheel-container {
-      position: relative;
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-      margin-bottom: 25px;
+      box-shadow: 0 0 10px cyan;
+      position: relative;
     }
 
     #wheel-image {
@@ -133,117 +107,67 @@
       top: 5px;
       left: 50%;
       transform: translateX(-50%);
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
       background-image: url('arrow.png');
       background-size: contain;
       background-repeat: no-repeat;
       z-index: 3;
     }
 
-    #start-animate {
-      padding: 10px 20px;
-      background: linear-gradient(135deg, #0ff, #00ccff);
-      border: none;
-      color: #000;
+    #start-animate, #generate-random, #redeem-button {
+      padding: 10px;
+      font-size: 0.9em;
       font-weight: bold;
+      border: none;
       border-radius: 6px;
       cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    #start-animate {
+      background: linear-gradient(135deg, #0ff, #00ccff);
+      color: #000;
       box-shadow: 0 0 10px #0ff;
-      margin-top: 20px;
+    }
+
+    .coin-box {
+      background: rgba(0,0,0,0.7);
+      color: #ffc107;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 15px;
+      text-align: center;
+      width: 100%;
     }
 
     .random-number-box {
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      padding: 15px;
+      margin-top: 15px;
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
       border-radius: 8px;
-      margin-bottom: 20px;
+      width: 100%;
       text-align: center;
-      font-size: 1.1em;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
     #generate-random {
-      padding: 10px 20px;
       background: linear-gradient(135deg, #ffa000, #ffc107);
-      border: none;
       color: #000;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 0 10px #ffc107;
-      margin-top: 10px;
-    }
-
-    #winner-display {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 200, 0, 0.8);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .show-winner {
-      opacity: 1 !important;
-    }
-
-    .insufficient-coins-popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.8);
-      color: #f44336;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(244, 67, 54, 0.8);
-      text-align: center;
-      font-size: 1.2em;
-      font-weight: bold;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease-in-out;
-      z-index: 5;
-    }
-
-    .insufficient-coins-popup.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .insufficient-coins-popup button {
-      background-color: #f44336;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 15px;
-      font-weight: bold;
+      box-shadow: 0 0 8px #ffc107;
     }
 
     #redeem-button {
       position: fixed;
       bottom: 20px;
-      right: 20px;
-      padding: 12px 20px;
+      left: 50%;
+      transform: translateX(-50%);
       background: linear-gradient(135deg, #00ffcc, #00ccff);
-      border: none;
       color: #000;
-      font-weight: bold;
-      border-radius: 8px;
-      box-shadow: 0 0 12px #00ffff;
-      cursor: pointer;
-      z-index: 10;
       opacity: 0.5;
       pointer-events: none;
+      box-shadow: 0 0 10px #00ffff;
+      z-index: 10;
     }
 
     #redeem-button.enabled {
@@ -251,185 +175,221 @@
       pointer-events: auto;
     }
 
-    .notice-box {
-      margin-top: 30px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
+    #winner-display {
+      margin-top: 20px;
+      background: green;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
       text-align: center;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); /* More prominent shadow */
-      border: 1px solid rgba(0, 255, 255, 0.2); /* Subtle border */
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
     }
 
-    .notice-box strong {
-      color: #00ffff; /* Highlighted text color */
-      font-size: 1.1em;
+    .show-winner {
+      opacity: 1;
+    }
+
+    .insufficient-coins-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: red;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+    }
+
+    .insufficient-coins-popup.show {
+      display: block;
+    }
+
+    .notice-box {
+      margin-top: 25px;
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.85em;
+      text-align: center;
+      border: 1px solid cyan;
     }
   </style>
 </head>
 <body>
   <div class="top-right">
     <div class="profile-circle" id="profile-toggle">
-      <img id="dashboard-bitmoji" src="" alt="Dashboard Bitmoji">
+      <img id="dashboard-bitmoji" src="" alt="Bitmoji" />
       <div id="user-info"></div>
     </div>
   </div>
 
   <div class="dashboard-container">
     <h1 class="greeting" id="welcome-message">Welcome!</h1>
-    <h2 id="spin-wheel-title">Spin the Wheel!</h2>
+    <h3>Spin the Wheel</h3>
     <div class="wheel-container">
       <div id="wheel-image"></div>
       <div id="wheel-arrow"></div>
     </div>
     <button id="start-animate">Spin</button>
+
     <div class="coin-box">
-      <span class="coin-logo">🪙</span>
-      <span id="coin-balance"></span>
+      Balance: <span id="coin-balance">₹0</span>
     </div>
+
     <div class="random-number-box">
-      Random Money: <span id="random-number-display"></span>
+      <div>Random Money: <span id="random-number-display">₹0</span></div>
       <div id="timer-display"></div>
       <button id="generate-random">Generate Money</button>
     </div>
+
+    <div id="winner-display"></div>
   </div>
 
-  <div id="winner-display"></div>
-  <div id="insufficient-coins" class="insufficient-coins-popup">
-    Insufficient Coins!
-    <p>You need ₹100 to spin.</p>
-    <button id="close-popup">Okay</button>
-  </div>
   <button id="redeem-button">Redeem</button>
 
+  <div id="insufficient-coins" class="insufficient-coins-popup">
+    Insufficient Coins! You need ₹100 to spin.<br>
+    <button onclick="document.getElementById('insufficient-coins').classList.remove('show')">Okay</button>
+  </div>
+
   <div class="notice-box">
-    <strong>Notice:</strong> The Redeem button will be enabled at ₹1000 coins. Keep pressing the Generate button until your balance reaches ₹1000.
+    <strong>Notice:</strong> Redeem becomes active at ₹1000 coins. Keep generating to reach the goal!
   </div>
 
   <script>
-    const dashboardBitmoji = document.getElementById("dashboard-bitmoji");
+    const bitmoji = document.getElementById("dashboard-bitmoji");
+    const userInfo = document.getElementById("user-info");
     const profileToggle = document.getElementById("profile-toggle");
-    const userInfoDiv = document.getElementById("user-info");
     const welcomeMessage = document.getElementById("welcome-message");
-    const wheelImage = document.getElementById("wheel-image");
-    const startAnimateButton = document.getElementById("start-animate");
-    const winnerDisplay = document.getElementById("winner-display");
-    const coinBalanceDisplay = document.getElementById("coin-balance");
-    const insufficientCoinsPopup = document.getElementById("insufficient-coins");
-    const closePopupButton = document.getElementById("close-popup");
-    const randomNumberDisplay = document.getElementById("random-number-display");
-    const generateRandomButton = document.getElementById("generate-random");
+    const wheel = document.getElementById("wheel-image");
+    const spinBtn = document.getElementById("start-animate");
+    const balanceDisplay = document.getElementById("coin-balance");
+    const randomBtn = document.getElementById("generate-random");
+    const randomDisplay = document.getElementById("random-number-display");
     const timerDisplay = document.getElementById("timer-display");
+    const winnerDisplay = document.getElementById("winner-display");
     const redeemButton = document.getElementById("redeem-button");
+    const insufficientPopup = document.getElementById("insufficient-coins");
 
-    let userCoins = 0;
+    let coins = 0;
     const spinCost = 100;
-    let spinning = false;
-    const specificRandomNumbers = [14, 15, 200, 2, 6, 9, 10, 30, 16, 7, 5, 1];
-    let generating = false;
-    const redeemThreshold = 1000; // Set the threshold for enabling the redeem button
+    const redeemTarget = 1000;
+    const rewards = ["Prize A", "Prize B", "Prize C", "Prize D"];
+    const randomValues = [5, 10, 15, 30, 50, 100, 200];
+    let isSpinning = false;
+    let isGenerating = false;
 
-    const storedUser = JSON.parse(localStorage.getItem("loginUser"));
-    if (storedUser?.username) {
-      welcomeMessage.textContent = `Welcome, ${storedUser.username}!`;
-    }
+    const user = JSON.parse(localStorage.getItem("loginUser"));
+    if (user?.username) welcomeMessage.textContent = `Welcome, ${user.username}!`;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const bitmojiUrl = urlParams.get('bitmoji');
-    if (bitmojiUrl) {
-      dashboardBitmoji.src = decodeURIComponent(bitmojiUrl);
+    const bitmojiUrl = urlParams.get("bitmoji");
+    if (bitmojiUrl) bitmoji.src = decodeURIComponent(bitmojiUrl);
+
+    profileToggle.onclick = () => {
+      userInfo.textContent = user ? `Username: ${user.username}\nPassword: ${user.password}` : "User data not found.";
+      userInfo.style.display = "block";
+      setTimeout(() => (userInfo.style.display = "none"), 2500);
+    };
+
+    function updateCoins(amount = 0) {
+      coins += amount;
+      balanceDisplay.textContent = `₹${coins}`;
+      redeemButton.classList.toggle("enabled", coins >= redeemTarget);
     }
 
-    profileToggle.addEventListener('click', () => {
-      if (storedUser?.username) {
-        let userInfoText = `Username: ${storedUser.username}\nPassword: ${storedUser.password}`;
-        const registrationData = JSON.parse(localStorage.getItem("registeredUsers")) || {};
-        if (registrationData[storedUser.username]?.email) {
-          userInfoText += `\nEmail: ${registrationData[storedUser.username].email}`;
-        }
-        userInfoDiv.textContent = userInfoText;
-        userInfoDiv.style.display = 'block';
-      } else {
-        userInfoDiv.textContent = "User data not found.";
-        userInfoDiv.style.display = 'block';
-        setTimeout(() => userInfoDiv.style.display = 'none', 2000);
-      }
-    });
-
-    function updateCoinDisplay() {
-      coinBalanceDisplay.textContent = `₹${userCoins}`;
-      if (userCoins >= redeemThreshold) {
-        redeemButton.classList.add("enabled");
-      } else {
-        redeemButton.classList.remove("enabled");
-      }
-    }
-
-    startAnimateButton.addEventListener('click', () => {
-      if (spinning || userCoins < spinCost) {
-        insufficientCoinsPopup.classList.add('show');
+    spinBtn.onclick = () => {
+      if (isSpinning || coins < spinCost) {
+        insufficientPopup.classList.add("show");
         return;
       }
 
-      userCoins -= spinCost;
-      updateCoinDisplay();
-      spinning = true;
-      startAnimateButton.disabled = true;
+      isSpinning = true;
+      spinBtn.disabled = true;
+      updateCoins(-spinCost);
 
-      wheelImage.style.transition = 'none';
-      wheelImage.style.transform = 'rotate(0deg)';
-      void wheelImage.offsetWidth;
-
-      const deg = 360 * 10 + Math.floor(Math.random() * 360);
-      wheelImage.style.transition = 'transform 10s cubic-bezier(0.25, 0.1, 0.25, 1)';
-      wheelImage.style.transform = `rotate(${deg}deg)`;
+      const deg = 360 * 8 + Math.floor(Math.random() * 360);
+      wheel.style.transform = `rotate(${deg}deg)`;
 
       setTimeout(() => {
-        const segments = ["Prize A", "Prize B", "Prize C", "Prize D", "Prize E", "Prize F", "Prize G", "Prize H"];
-        const index = Math.floor((deg % 360) / (360 / segments.length));
-        const prize = segments[index];
-        winnerDisplay.textContent = `Congratulations! You won: ${prize}`;
-        winnerDisplay.classList.add('show-winner');
-        spinning = false;
-        startAnimateButton.disabled = false;
+        const index = Math.floor((deg % 360) / (360 / rewards.length));
+        winnerDisplay.textContent = `You won: ${rewards[index]}`;
+        winnerDisplay.classList.add("show-winner");
+        isSpinning = false;
+        spinBtn.disabled = false;
       }, 10000);
-    });
+    };
 
-    closePopupButton.addEventListener('click', () => {
-      insufficientCoinsPopup.classList.remove('show');
-    });
+    randomBtn.onclick = () => {
+      if (isGenerating) return;
+      isGenerating = true;
+      let countdown = 5;
+      timerDisplay.textContent = `Generating in: ${countdown}s`;
+      randomBtn.disabled = true;
 
-    generateRandomButton.addEventListener('click', () => {
-      if (generating) return;
-      generating = true;
-      generateRandomButton.disabled = true;
-      let timeLeft = 5;
-      timerDisplay.textContent = `Generating in: ${timeLeft}s`;
-
-      const timerInterval = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = `Generating in: ${timeLeft}s`;
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          const randomIndex = Math.floor(Math.random() * specificRandomNumbers.length);
-          randomNumberDisplay.textContent = `₹${specificRandomNumbers[randomIndex]} 💵`;
-          userCoins += specificRandomNumbers[randomIndex]; // Add the generated random number to the coins
-          updateCoinDisplay();
-          generateRandomButton.disabled = false;
-          generating = false;
+      const interval = setInterval(() => {
+        countdown--;
+        timerDisplay.textContent = `Generating in: ${countdown}s`;
+        if (countdown <= 0) {
+          clearInterval(interval);
+          const value = randomValues[Math.floor(Math.random() * randomValues.length)];
+          updateCoins(value);
+          randomDisplay.textContent = `₹${value}`;
+          randomBtn.disabled = false;
           timerDisplay.textContent = '';
+          isGenerating = false;
         }
       }, 1000);
-    });
+    };
 
-    updateCoinDisplay(); // Initialize the coin display and redeem button state
-  redeemButton.addEventListener('click', () => {
-  if (userCoins >= redeemThreshold) {
-    window.location.href = "redeem.html";
-  }
-});
+    redeemButton.onclick = () => {
+      if (coins >= redeemTarget) {
+        window.location.href = "redeem.html";
+      }
+    };
   </script>
+  <div id="visitor-counter" style="
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  z-index: 9999;
+  font-family: 'Arial', sans-serif;
+  animation: pulse 2s infinite;
+">
+  <span>🔥</span>
+  <span id="visit-count">0</span> Visitors
+</div>
+
+<style>
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+</style>
+  <script>
+  // Get count from localStorage or default to 0
+  let visitCount = localStorage.getItem('visitCount') || 0;
+  visitCount++;
+  localStorage.setItem('visitCount', visitCount);
+
+  // Show count in element
+  document.getElementById('visit-count').textContent = visitCount;
+</script>
+  
 </body>
- 
 </html>
